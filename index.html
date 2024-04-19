@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Voice to Text</title>
+</head>
+<body>
+  <button id="startButton">Reconhecer voz</button>
+  <textarea id="transcriptBox" rows="5"></textarea> <script>
+    const startButton = document.getElementById('startButton');
+    const transcriptBox = document.getElementById('transcriptBox'); // transcriçao do audio
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+    recognition.lang = 'pt-BR';
+
+    recognition.onstart = () => {
+      startButton.textContent = 'Ouvindo...';
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      transcriptBox.value += transcript + '\n'; 
+    };
+
+    recognition.onend = () => {
+      startButton.textContent = 'Iniciar entrada de voz';
+    };
+
+    startButton.addEventListener('click', () => {
+      recognition.start();
+    });
+  </script>
+</body>
+</html>
